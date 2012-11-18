@@ -2,3 +2,15 @@
 *.pot
 *.pyc
 local_settings.py
+.*.sw*
+xapian_index
+python.core
+locale
+templates
+private/
+*.egg-info/
+src/
+_build/
+build/
+dist/
+\#*\#
