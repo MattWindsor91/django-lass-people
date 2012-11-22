@@ -9,9 +9,11 @@ class PersonAdmin(admin.ModelAdmin):
     exclude = ('password',)
 
 
-admin.site.register(Person, PersonAdmin)
+def register(site):
+    """
+    Registers hooks into the given admin site for the people system
+    models.
 
-
-## CreditType ##
-
-admin.site.register(CreditType)
+    """
+    site.register(Person, PersonAdmin)
+    site.register(CreditType)
