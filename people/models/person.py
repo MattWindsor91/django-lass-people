@@ -1,5 +1,14 @@
-"""Models pertaining to people and various subtypes of people."""
+"""
+person
+------
 
+:mod:`people.models.person` contains models pertaining to people
+and various subtypes of people.
+
+For the time being, it defines the structure of the URY membership
+database, which is a legacy hold-over and in need of some cleanup.
+
+"""
 from django.conf import settings
 from django.db import models
 
@@ -110,14 +119,24 @@ class Person(models.Model):
 # of a data item, approver of that item, etc) less ambiguous.
 
 class Creator(Person):
-    """A creator of show data."""
+    """
+    A creator of data.
+
+    This class is currently a proxy to :class:`Person`.
+
+    """
     class Meta:
         proxy = True
         app_label = 'people'
 
 
 class Approver(Person):
-    """A person who has approved a schedule change."""
+    """
+    A person who has approved an item of data.
+
+    This class is currently a proxy to :class:`Person`.
+
+    """
     class Meta:
         proxy = True
         app_label = 'people'

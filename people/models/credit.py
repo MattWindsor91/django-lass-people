@@ -1,9 +1,11 @@
-"""Models concerning crediting URY members for the existence of data.
+"""
+credit
+------
+
+:mod:`people.models.credit` contains models concerning crediting
+people for having performed roles with regards to other models.
 
 """
-
-# IF YOU'RE ADDING CLASSES TO THIS, DON'T FORGET TO ADD THEM TO
-# __init__.py
 
 from django.conf import settings
 from django.db import models
