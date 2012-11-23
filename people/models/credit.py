@@ -26,7 +26,7 @@ CREDIT_TYPE_DB_TABLE = getattr(
 #: in the Django settings system, is defined here.
 CREDIT_TYPE_DB_ID_COLUMN = getattr(
     settings,
-    'CREDIT_DB_ID_COLUMN',
+    'CREDIT_TYPE_DB_ID_COLUMN',
     None
 )
 
