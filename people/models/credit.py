@@ -15,33 +15,42 @@ from people.mixins import ApprovableMixin
 from lass_utils.mixins import EffectiveRangeMixin
 
 
+#: The database table of the :class:`CreditType` model, if specified
+#: in the Django settings system, is defined here.
 CREDIT_TYPE_DB_TABLE = getattr(
     settings,
     'CREDIT_TYPE_DB_TABLE',
-    'credit_type'
+    None
 )
+#: The primary key of the :class:`CreditType` model, if specified
+#: in the Django settings system, is defined here.
 CREDIT_TYPE_DB_ID_COLUMN = getattr(
     settings,
     'CREDIT_DB_ID_COLUMN',
-    'credit_type_id'
+    None
 )
 
 
 class CreditType(models.Model):
-    """A type of credit, as used in ShowCredit.
+    """
+    A type of credit.
 
     Types of show credit might include "presenter", "director",
     "reporter" and so on.
+
+    This is not yet a subclass of :doc:`lass_utils.models.Type` but
+    this may change in a future API-breaking update.
 
     """
 
     def __unicode__(self):
         return self.name
 
-    id = models.AutoField(
-        primary_key=True,
-        db_column=CREDIT_TYPE_DB_ID_COLUMN
-    )
+    if CREDIT_TYPE_DB_ID_COLUMN:
+        id = models.AutoField(
+            primary_key=True,
+            db_column=CREDIT_TYPE_DB_ID_COLUMN
+        )
     name = models.CharField(
         max_length=255,
         help_text='Human-readable, singular name for the type.')
@@ -53,9 +62,14 @@ class CreditType(models.Model):
         help_text='If true, credits of this type appear in by-lines.')
 
     class Meta:
+        """
+        Metadata for the :class:`CreditType` model.
+
+        """
         ordering = ['name']
-        db_table = CREDIT_TYPE_DB_TABLE
         app_label = 'people'
+        if CREDIT_TYPE_DB_TABLE:
+            db_table = CREDIT_TYPE_DB_TABLE
 
 
 class Credit(ApprovableMixin,
