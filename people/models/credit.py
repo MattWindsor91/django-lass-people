@@ -9,26 +9,13 @@ people for having performed roles with regards to other models.
 
 from django.conf import settings
 from django.db import models
+
 from people.models import Person
 from people.mixins import CreatableMixin
 from people.mixins import ApprovableMixin
+
+from lass_utils.mixins import AttachableMixin
 from lass_utils.mixins import EffectiveRangeMixin
-
-
-#: The database table of the :class:`CreditType` model, if specified
-#: in the Django settings system, is defined here.
-CREDIT_TYPE_DB_TABLE = getattr(
-    settings,
-    'CREDIT_TYPE_DB_TABLE',
-    None
-)
-#: The primary key of the :class:`CreditType` model, if specified
-#: in the Django settings system, is defined here.
-CREDIT_TYPE_DB_ID_COLUMN = getattr(
-    settings,
-    'CREDIT_TYPE_DB_ID_COLUMN',
-    None
-)
 
 
 class CreditType(models.Model):
@@ -46,10 +33,10 @@ class CreditType(models.Model):
     def __unicode__(self):
         return self.name
 
-    if CREDIT_TYPE_DB_ID_COLUMN:
+    if hasattr(settings, 'CREDIT_TYPE_DB_ID_COLUMN'):
         id = models.AutoField(
             primary_key=True,
-            db_column=CREDIT_TYPE_DB_ID_COLUMN
+            db_column=settings.CREDIT_TYPE_DB_ID_COLUMN
         )
     name = models.CharField(
         max_length=255,
@@ -68,15 +55,15 @@ class CreditType(models.Model):
         """
         ordering = ['name']
         app_label = 'people'
-        if CREDIT_TYPE_DB_TABLE:
-            db_table = CREDIT_TYPE_DB_TABLE
+        if hasattr(settings, 'CREDIT_TYPE_DB_TABLE'):
+            db_table = settings.CREDIT_TYPE_DB_TABLE
 
 
 class Credit(ApprovableMixin,
+             AttachableMixin,
              CreatableMixin,
              EffectiveRangeMixin):
     """Abstract base class for credit models."""
-    # Don't forget to put an `id` column in when overriding!
     credit_type = models.ForeignKey(
         CreditType,
         db_column='credit_type_id',
