@@ -87,7 +87,7 @@ class Credit(ApprovableMixin,
     ## MAGIC METHODS ##
 
     def __unicode__(self):
-        return self.credit.full_name()
+        return self.person.full_name()
 
     class Meta(EffectiveRangeMixin.Meta):
         ordering = ['person']
