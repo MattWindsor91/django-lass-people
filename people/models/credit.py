@@ -64,15 +64,25 @@ class Credit(ApprovableMixin,
              CreatableMixin,
              EffectiveRangeMixin):
     """Abstract base class for credit models."""
+    type_kwargs = {}
+    if hasattr(settings, 'CREDIT_DB_TYPE_COLUMN'):
+        type_kwargs['db_column'] = settings.CREDIT_DB_TYPE_COLUMN
+
     credit_type = models.ForeignKey(
         CreditType,
-        db_column='credit_type_id',
-        help_text='The type of credit the credit is assigned.')
-    credit = models.ForeignKey(
+        help_text='The type of credit the credit is assigned.',
+        **type_kwargs
+    )
+
+    kwargs = {}
+    if hasattr(settings, 'CREDIT_DB_CREDITED_COLUMN'):
+        kwargs['db_column'] = settings.CREDIT_DB_CREDITED_COLUMN
+    person = models.ForeignKey(
         Person,
-        db_column='creditid',
-        help_text='The credit being credited.',
-        related_name='credited_%(app_label)s_%(class)s_set')
+        help_text='The person being credited.',
+        related_name='credited_%(app_label)s_%(class)s_set',
+        **kwargs
+    )
 
     ## MAGIC METHODS ##
 
