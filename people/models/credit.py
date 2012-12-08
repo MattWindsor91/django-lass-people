@@ -90,5 +90,5 @@ class Credit(ApprovableMixin,
         return self.credit.full_name()
 
     class Meta(EffectiveRangeMixin.Meta):
-        ordering = ['credit']
+        ordering = ['person']
         abstract = True
